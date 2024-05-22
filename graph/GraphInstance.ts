@@ -80,40 +80,41 @@ export class Graph {
 
     // Configure Graph
     this._options = {
-      height: (config && config.height) || 480,
-      width: (config && config.width) || 720,
-      backgroundColor: (config && config.backgroundColor) || {
+      height: (config && config.height) ?? 480,
+      width: (config && config.width) ?? 720,
+      backgroundColor: (config && config.backgroundColor) ?? {
         r: 50,
         g: 50,
         b: 50,
         a: 0.5,
       },
 
-      titleText: (config && config.titleText) || "title",
-      xAxisText: (config && config.xAxisText) || "X-Axis",
-      yAxisText: (config && config.yAxisText) || "Y-Axis",
+      titleText: (config && config.titleText) ?? "title",
+      xAxisText: (config && config.xAxisText) ?? "X-Axis",
+      yAxisText: (config && config.yAxisText) ?? "Y-Axis",
 
-      yMax: (config && config.yMax) || -1,
+      yMax: (config && config.yMax) ?? -1,
+      yMin: (config && config.yMin) ?? 0,
 
-      yPadding: (config && config.yPadding) || 0,
-      xPadding: (config && config.xPadding) || 0,
+      yPadding: (config && config.yPadding) ?? 0,
+      xPadding: (config && config.xPadding) ?? 0,
 
-      bar_width: (config && config.bar_width) || 10,
-      bar_spacing: (config && config.bar_spacing) || 5,
+      bar_width: (config && config.bar_width) ?? 10,
+      bar_spacing: (config && config.bar_spacing) ?? 5,
 
-      graphSegments_X: (config && config.graphSegments_X) || 10,
-      graphSegments_Y: (config && config.graphSegments_Y) || graphSegments_Y,
+      graphSegments_X: (config && config.graphSegments_X) ?? 10,
+      graphSegments_Y: (config && config.graphSegments_Y) ?? graphSegments_Y,
 
-      titleColor: (config && config.titleColor) || "rgb(255,255,255)",
-      xTextColor: (config && config.xTextColor) || "rgb(255,255,255)",
-      yTextColor: (config && config.yTextColor) || "rgb(255,255,255)",
+      titleColor: (config && config.titleColor) ?? "rgb(255,255,255)",
+      xTextColor: (config && config.xTextColor) ?? "rgb(255,255,255)",
+      yTextColor: (config && config.yTextColor) ?? "rgb(255,255,255)",
 
-      xSegmentColor: (config && config.xSegmentColor) || "rgb(255,255,255)",
-      ySegmentColor: (config && config.ySegmentColor) || "rgb(255,255,255)",
+      xSegmentColor: (config && config.xSegmentColor) ?? "rgb(255,255,255)",
+      ySegmentColor: (config && config.ySegmentColor) ?? "rgb(255,255,255)",
 
-      graphValuePrecision: (config && config.graphValuePrecision) || 2,
+      graphValuePrecision: (config && config.graphValuePrecision) ?? 2,
 
-      verbose: (config && config.verbose) || false,
+      verbose: (config && config.verbose) ?? false,
     };
 
     // Apply Graph Padding
@@ -158,12 +159,14 @@ export class Graph {
     ctx.lineWidth = 1.5;
 
     // Graph Title
-    drawTextWithFont(this._options.titleText, WIDTH / 2 - 30, this._y_offset, "12pt Cochin");
+    if (this._options.titleText)
+      drawTextWithFont(this._options.titleText, WIDTH / 2 - 30, this._y_offset, "12pt Cochin");
 
     // X-Axis
     ctx.strokeStyle = this._options.xTextColor;
     ctx.fillStyle = this._options.xTextColor;
-    ctx.fillText(this._options.xAxisText, WIDTH / 2 - 10, HEIGHT - this._y_offset / 2 + 10);
+    if (this._options.xAxisText)
+      ctx.fillText(this._options.xAxisText, WIDTH / 2 - 10, HEIGHT - this._y_offset / 2 + 10);
 
     ctx.beginPath();
     ctx.lineTo(this._x_padding, HEIGHT - this._y_padding);
@@ -174,7 +177,7 @@ export class Graph {
     // Y-Axis
     ctx.strokeStyle = this._options.yTextColor;
     ctx.fillStyle = this._options.yTextColor;
-    ctx.fillText(this._options.yAxisText, this._x_offset / 2 - 8, HEIGHT / 2);
+    if (this._options.yAxisText) ctx.fillText(this._options.yAxisText, this._x_offset / 2 - 8, HEIGHT / 2);
 
     ctx.beginPath();
     ctx.lineTo(this._x_padding, HEIGHT - this._y_padding);
