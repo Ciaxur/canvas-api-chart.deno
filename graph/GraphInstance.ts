@@ -262,14 +262,13 @@ export class Graph {
    */
   private _draw_bars() {
     const { ctx, HEIGHT, WIDTH } = CanvasInstance;
-    const { bar_width, graphSegments_X, graphSegments_Y, graphValuePrecision } = this._options;
+    const { bar_width, graphSegments_X, graphSegments_Y, graphValuePrecision, yMax } = this._options;
 
     ctx.save();
 
     // Find max bar value to map based on yMax
     const Y_SEGMENTS = HEIGHT / graphSegments_Y;
     const maxY_segment = Y_SEGMENTS * (graphSegments_Y - 2);
-    const maxBarValue = max(this._entries.map((elt) => elt.val));
 
     // Space out each Entry to given Segments
     const X_SEGMENTS = (WIDTH - this._x_padding) / graphSegments_X;
@@ -285,7 +284,7 @@ export class Graph {
 
       // Max X & Y Points
       const X = this._x_padding + X_SEGMENTS * i;
-      const Y = normalize(y, 0, maxBarValue) * maxY_segment;
+      const Y = normalize(y, 0, yMax) * maxY_segment;
 
       ctx.fillRect(X, HEIGHT - this._y_offset - Y, bar_width, Y);
       ctx.closePath();
