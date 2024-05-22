@@ -19,7 +19,7 @@ export interface GraphOptions {
   xAxisText: string;
   yAxisText: string;
 
-  // Y-Max Normalized Value
+  /** Y-Max Normalized Value */
   yMax: number;
 
   // Graph Outer-Padding
@@ -54,6 +54,8 @@ export interface BarEntry {
   val: number;
   label?: string;
   color: string;
+  /** If null, it won't show it. If undefined, it will show the value. */
+  valueLabel?: string | null;
 }
 
 export class Graph {
@@ -276,7 +278,7 @@ export class Graph {
       if (i >= this._entries.length) break;
 
       const entry = this._entries[i];
-      const { val: y, color } = entry;
+      const { val: y, color, valueLabel } = entry;
 
       ctx.fillStyle = color;
       ctx.beginPath();
@@ -290,7 +292,7 @@ export class Graph {
 
       // Y Value text (Value)
       const val = y % 1 !== 0 ? y.toFixed(graphValuePrecision) : y;
-      ctx.fillText(val.toString(), X + 5, HEIGHT - this._y_offset - Y - 10);
+      if (valueLabel !== null) ctx.fillText(valueLabel ?? val.toString(), X + 5, HEIGHT - this._y_offset - Y - 10);
     }
 
     ctx.restore();
