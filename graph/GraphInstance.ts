@@ -1,60 +1,59 @@
-import { CanvasInstance } from '../config/index.ts';
-import { normalize, max, background, drawTextWithFont } from '../utils/index.ts';
-
+import { CanvasInstance } from "../config/index.ts";
+import { normalize, max, background, drawTextWithFont } from "../utils/index.ts";
 
 interface RGBA {
-  r: number,
-  g: number,
-  b: number,
-  a: number,
+  r: number;
+  g: number;
+  b: number;
+  a: number;
 }
 
 export interface GraphOptions {
   // Canvas Width & Height
-  width: number,
-  height: number,
-  backgroundColor: RGBA,
-  
+  width: number;
+  height: number;
+  backgroundColor: RGBA;
+
   // Graph Text
-  titleText: string,
-  xAxisText: string,
-  yAxisText: string,
+  titleText: string;
+  xAxisText: string;
+  yAxisText: string;
 
   // Y-Max Normalized Value
-  yMax:         number,
+  yMax: number;
 
   // Graph Outer-Padding
-  yPadding: number,
-  xPadding: number,
-  
+  yPadding: number;
+  xPadding: number;
+
   // Bar Config
-  bar_width:    number,
-  bar_spacing:  number,
+  bar_width: number;
+  bar_spacing: number;
 
   // Graph Segements
-  graphSegments_Y: number,
-  graphSegments_X: number,
+  graphSegments_Y: number;
+  graphSegments_X: number;
 
   // Text Color
-  titleColor: string,
-  xTextColor: string,
-  yTextColor: string,
-  
+  titleColor: string;
+  xTextColor: string;
+  yTextColor: string;
+
   // Segmentation Color
-  xSegmentColor: string,
-  ySegmentColor: string,
+  xSegmentColor: string;
+  ySegmentColor: string;
 
   // Graph Values
-  graphValuePrecision: number,    // Rounds floating-point values to given nth number
+  graphValuePrecision: number; // Rounds floating-point values to given nth number
 
   // DEBUG: Options
-  verbose: boolean,   // Enable/Disable Logging
+  verbose: boolean; // Enable/Disable Logging
 }
 
 export interface BarEntry {
-  val:      number,
-  label?:   string,
-  color:    string,
+  val: number;
+  label?: string;
+  color: string;
 }
 
 export class Graph {
@@ -69,7 +68,6 @@ export class Graph {
   // Graph Configuration
   private _options: GraphOptions;
 
-  
   /**
    * Constructs Graph Configuration
    * @param config (Optional) Graph Configuration
@@ -80,41 +78,41 @@ export class Graph {
 
     // Configure Graph
     this._options = {
-      height: config && config.height || 480,
-      width: config && config.width || 720,
-      backgroundColor: config && config.backgroundColor || {
-        r: 50, 
-        g: 50, 
-        b: 50, 
+      height: (config && config.height) || 480,
+      width: (config && config.width) || 720,
+      backgroundColor: (config && config.backgroundColor) || {
+        r: 50,
+        g: 50,
+        b: 50,
         a: 0.5,
       },
-      
-      titleText: config && config.titleText || 'title',
-      xAxisText: config && config.xAxisText || 'X-Axis',
-      yAxisText: config && config.yAxisText || 'Y-Axis',
 
-      yMax: config && config.yMax || -1,
+      titleText: (config && config.titleText) || "title",
+      xAxisText: (config && config.xAxisText) || "X-Axis",
+      yAxisText: (config && config.yAxisText) || "Y-Axis",
 
-      yPadding: config && config.yPadding || 0,
-      xPadding: config && config.xPadding || 0,
-      
-      bar_width:    config && config.bar_width   || 10,
-      bar_spacing:  config && config.bar_spacing || 5,
+      yMax: (config && config.yMax) || -1,
 
-      graphSegments_X: config && config.graphSegments_X || 10,
-      graphSegments_Y: config && config.graphSegments_Y || graphSegments_Y,
+      yPadding: (config && config.yPadding) || 0,
+      xPadding: (config && config.xPadding) || 0,
 
-      titleColor: config && config.titleColor || 'rgb(255,255,255)',
-      xTextColor: config && config.xTextColor || 'rgb(255,255,255)',
-      yTextColor: config && config.yTextColor || 'rgb(255,255,255)',
-      
-      xSegmentColor: config && config.xSegmentColor || 'rgb(255,255,255)',
-      ySegmentColor: config && config.ySegmentColor || 'rgb(255,255,255)',
+      bar_width: (config && config.bar_width) || 10,
+      bar_spacing: (config && config.bar_spacing) || 5,
 
-      graphValuePrecision: config && config.graphValuePrecision || 2,
+      graphSegments_X: (config && config.graphSegments_X) || 10,
+      graphSegments_Y: (config && config.graphSegments_Y) || graphSegments_Y,
 
-      verbose: config && config.verbose || false,
-    }
+      titleColor: (config && config.titleColor) || "rgb(255,255,255)",
+      xTextColor: (config && config.xTextColor) || "rgb(255,255,255)",
+      yTextColor: (config && config.yTextColor) || "rgb(255,255,255)",
+
+      xSegmentColor: (config && config.xSegmentColor) || "rgb(255,255,255)",
+      ySegmentColor: (config && config.ySegmentColor) || "rgb(255,255,255)",
+
+      graphValuePrecision: (config && config.graphValuePrecision) || 2,
+
+      verbose: (config && config.verbose) || false,
+    };
 
     // Apply Graph Padding
     this._x_padding += this._options.xPadding;
@@ -130,8 +128,7 @@ export class Graph {
         console.log(`Initialized Canvas Instance W[${this._options.width}] H[${this._options.height}]`);
     }
 
-    if (this._options.verbose)
-      console.log('Create Graph with Options:', this._options);
+    if (this._options.verbose) console.log("Create Graph with Options:", this._options);
   }
 
   /**
@@ -141,16 +138,16 @@ export class Graph {
   public add(entry: BarEntry): void {
     this._entries.push(entry);
   }
-  
+
   /**
    * Internal: Draws Graph outline
    */
   private _draw_graph_outline() {
     const { ctx, HEIGHT, WIDTH } = CanvasInstance;
-    
+
     // CTX Config
     ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
+    ctx.imageSmoothingQuality = "high";
 
     // Drawing Style Config
     ctx.save();
@@ -159,12 +156,12 @@ export class Graph {
     ctx.lineWidth = 1.5;
 
     // Graph Title
-    drawTextWithFont(this._options.titleText, (WIDTH / 2) - 30, this._y_offset, '12pt Cochin');
+    drawTextWithFont(this._options.titleText, WIDTH / 2 - 30, this._y_offset, "12pt Cochin");
 
     // X-Axis
     ctx.strokeStyle = this._options.xTextColor;
     ctx.fillStyle = this._options.xTextColor;
-    ctx.fillText(this._options.xAxisText, (WIDTH / 2) - 10, (HEIGHT - this._y_offset / 2) + 10);
+    ctx.fillText(this._options.xAxisText, WIDTH / 2 - 10, HEIGHT - this._y_offset / 2 + 10);
 
     ctx.beginPath();
     ctx.lineTo(this._x_padding, HEIGHT - this._y_padding);
@@ -175,7 +172,7 @@ export class Graph {
     // Y-Axis
     ctx.strokeStyle = this._options.yTextColor;
     ctx.fillStyle = this._options.yTextColor;
-    ctx.fillText(this._options.yAxisText, (this._x_offset / 2) - 8, (HEIGHT / 2));
+    ctx.fillText(this._options.yAxisText, this._x_offset / 2 - 8, HEIGHT / 2);
 
     ctx.beginPath();
     ctx.lineTo(this._x_padding, HEIGHT - this._y_padding);
@@ -193,29 +190,21 @@ export class Graph {
     const { graphSegments_X, graphSegments_Y, graphValuePrecision } = this._options;
 
     // Evaluate yMax if selected
-    this._options.yMax = this._options.yMax === -1
-      ? max(this._entries.map(elt => elt.val))
-      : this._options.yMax;
-    
-    if (this._options.verbose)
-      console.log('yMax Evaluated to: ', this._options.yMax);
+    this._options.yMax = this._options.yMax === -1 ? max(this._entries.map((elt) => elt.val)) : this._options.yMax;
+
+    if (this._options.verbose) console.log("yMax Evaluated to: ", this._options.yMax);
 
     // Y-Axis Segmentations
     const Y_SEGMENTS = HEIGHT / graphSegments_Y;
     const maxY_segment = Y_SEGMENTS * (graphSegments_Y - 2);
-    
+
     for (let i = 0; i < graphSegments_Y - 1; i++) {
-      const Y = (HEIGHT - (Y_SEGMENTS * i)) - this._y_padding;
-      
-      ctx.fillStyle = '#ECF0F1';
-      ctx.strokeStyle = '#ECF0F1';
+      const Y = HEIGHT - Y_SEGMENTS * i - this._y_padding;
+
+      ctx.fillStyle = "#ECF0F1";
+      ctx.strokeStyle = "#ECF0F1";
       ctx.beginPath();
-      ctx.arc(
-        this._x_padding, 
-        Y,
-        2,
-        0, Math.PI * 2,
-      );
+      ctx.arc(this._x_padding, Y, 2, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
 
@@ -223,12 +212,12 @@ export class Graph {
       ctx.fillStyle = this._options.ySegmentColor;
       ctx.strokeStyle = this._options.ySegmentColor;
 
-      const normalized = normalize((HEIGHT - this._y_padding - Y), 0, maxY_segment);
+      const normalized = normalize(HEIGHT - this._y_padding - Y, 0, maxY_segment);
       const yVal = normalized * this._options.yMax;
       ctx.fillText(
         (!(yVal % 1) ? yVal : yVal.toFixed(graphValuePrecision)).toString(),
-        this._x_padding - ((yVal % 1 === 0) ? 25 :35),
-        Y,
+        this._x_padding - (yVal % 1 === 0 ? 25 : 35),
+        Y
       );
     }
 
@@ -237,33 +226,28 @@ export class Graph {
     for (let i = 0; i < graphSegments_X - 1; i++) {
       const X = this._x_padding + X_SEGMENTS * i;
 
-      ctx.fillStyle = '#ECF0F1';
-      ctx.strokeStyle = '#ECF0F1';
+      ctx.fillStyle = "#ECF0F1";
+      ctx.strokeStyle = "#ECF0F1";
       ctx.beginPath();
-      ctx.arc(
-        X, 
-        HEIGHT - this._y_padding,
-        2,
-        0, Math.PI * 2,
-      );
+      ctx.arc(X, HEIGHT - this._y_padding, 2, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
 
       // X Value Text (Index)
       const entry = this._entries[i];
-      const entryFloatVal = entry && entry.label && Number.parseFloat(entry.label) || NaN;
+      const entryFloatVal = (entry && entry.label && Number.parseFloat(entry.label)) || NaN;
       ctx.fillStyle = this._options.xSegmentColor;
       ctx.strokeStyle = this._options.xSegmentColor;
       ctx.fillText(
-        (entry && entry.label
-          && (  // Set fixed floating point decimal IF parsable float
-            isNaN(entryFloatVal)
+        (
+          (entry &&
+            entry.label && // Set fixed floating point decimal IF parsable float
+            (isNaN(entryFloatVal)
               ? entry.label
-              : !(entryFloatVal % 1)  // Only set fixed precision for Floating-point values
-                ? entryFloatVal
-                : entryFloatVal.toFixed(graphValuePrecision)
-          )
-          || i
+              : !(entryFloatVal % 1) // Only set fixed precision for Floating-point values
+              ? entryFloatVal
+              : entryFloatVal.toFixed(graphValuePrecision))) ||
+          i
         ).toString(),
         X,
         HEIGHT - this._y_offset + 12
@@ -277,56 +261,48 @@ export class Graph {
   private _draw_bars() {
     const { ctx, HEIGHT, WIDTH } = CanvasInstance;
     const { bar_width, graphSegments_X, graphSegments_Y, graphValuePrecision } = this._options;
-    
+
     ctx.save();
 
     // Find max bar value to map based on yMax
     const Y_SEGMENTS = HEIGHT / graphSegments_Y;
     const maxY_segment = Y_SEGMENTS * (graphSegments_Y - 2);
-    const maxBarValue = max(this._entries.map(elt => elt.val));
-    
+    const maxBarValue = max(this._entries.map((elt) => elt.val));
+
     // Space out each Entry to given Segments
     const X_SEGMENTS = (WIDTH - this._x_padding) / graphSegments_X;
     for (let i = 0; i < graphSegments_X; i++) {
       // Constrain to # of entries
-      if (i >= this._entries.length)
-        break;
-      
+      if (i >= this._entries.length) break;
+
       const entry = this._entries[i];
       const { val: y, color } = entry;
-      
+
       ctx.fillStyle = color;
       ctx.beginPath();
-      
+
       // Max X & Y Points
       const X = this._x_padding + X_SEGMENTS * i;
       const Y = normalize(y, 0, maxBarValue) * maxY_segment;
-      
-      ctx.fillRect(
-        X,
-        HEIGHT - this._y_offset - Y,
-        bar_width, 
-        Y,
-      );
+
+      ctx.fillRect(X, HEIGHT - this._y_offset - Y, bar_width, Y);
       ctx.closePath();
 
       // Y Value text (Value)
-      const val = y % 1 !== 0
-        ? y.toFixed(graphValuePrecision)
-        : y;
+      const val = y % 1 !== 0 ? y.toFixed(graphValuePrecision) : y;
       ctx.fillText(val.toString(), X + 5, HEIGHT - this._y_offset - Y - 10);
     }
-    
+
     ctx.restore();
   }
-  
+
   /**
    * Draws graph with entries to Canvas Context
    */
   public draw() {
     const { r, g, b, a } = this._options.backgroundColor;
     background(r, g, b, a);
-    
+
     this._draw_bars();
     this._draw_graph_outline();
     this._draw_graph_segments();
@@ -341,8 +317,7 @@ export class Graph {
     const imageBuffer = canvas.toBuffer();
     Deno.writeFileSync(imagePath, imageBuffer);
 
-    if (this._options.verbose)
-      console.log(`Graph save to '${imagePath}'`);
+    if (this._options.verbose) console.log(`Graph save to '${imagePath}'`);
   }
 
   /**
@@ -352,5 +327,4 @@ export class Graph {
     const { canvas } = CanvasInstance;
     return canvas.toBuffer();
   }
-  
-};
+}

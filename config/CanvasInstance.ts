@@ -1,18 +1,14 @@
-import Canvas, { 
-  EmulatedCanvas2D,
-  CanvasRenderingContext2D,
-} from '../deps.ts';
-
+import Canvas, { EmulatedCanvas2D, CanvasRenderingContext2D } from "../deps.ts";
 
 export class CanvasInstance {
   // CANVAS API INSTANCES
-  private static _canvas: EmulatedCanvas2D | null      = null;
+  private static _canvas: EmulatedCanvas2D | null = null;
   private static _ctx: CanvasRenderingContext2D | null = null;
 
   // CANVAS CONFIGURATION
-  private static _WIDTH:  number = 200;     // Default 200
-  private static _HEIGHT: number = 200;     // Default 200
-  
+  private static _WIDTH: number = 200; // Default 200
+  private static _HEIGHT: number = 200; // Default 200
+
   private constructor() {}
 
   /**
@@ -26,18 +22,18 @@ export class CanvasInstance {
    * Instantiates a Canvas Instance
    * @param width Canvas Width
    * @param height Canvas Height
-   * @returns 
+   * @returns
    */
   public static init(width: number, height: number) {
     if (this._canvas === null) {
-      this._canvas   = Canvas.MakeCanvas(width, height);
-      this._ctx      = this._canvas.getContext('2d');
-      this._WIDTH   = width;
-      this._HEIGHT  = height;
+      this._canvas = Canvas.MakeCanvas(width, height);
+      this._ctx = this._canvas.getContext("2d");
+      this._WIDTH = width;
+      this._HEIGHT = height;
     }
     return this._ctx;
   }
-  
+
   public static get WIDTH(): number {
     return this._WIDTH;
   }
@@ -54,4 +50,4 @@ export class CanvasInstance {
     if (this._ctx === null) this.init(200, 200);
     return this._ctx as CanvasRenderingContext2D;
   }
-};
+}

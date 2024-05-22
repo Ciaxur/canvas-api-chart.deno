@@ -1,1 +1,1 @@
-export * from './CanvasInstance.ts';
+export * from "./CanvasInstance.ts";

@@ -1,5 +1,4 @@
-import { CanvasInstance } from '../config/index.ts';
-
+import { CanvasInstance } from "../config/index.ts";
 
 /**
  * Sets the background color
@@ -13,7 +12,6 @@ export function background(r: number, g: number, b: number, a = 1.0) {
   ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
 }
-
 
 /**
  * Helper function that draws given text with a font, restoring the font
@@ -47,5 +45,5 @@ export function normalize(val: number, min: number, max: number): number {
  * @param array Array of number to find max number of
  */
 export function max(array: number[]): number {
-  return array.reduce((acc, val) => val > acc ? val : acc, 0);
+  return array.reduce((acc, val) => (val > acc ? val : acc), 0);
 }
