@@ -195,16 +195,17 @@ export class Graph {
     const { graphSegments_X, graphSegments_Y, graphValuePrecision } = this._options;
 
     // Evaluate yMax if selected
-    this._options.yMax = this._options.yMax === -1 ? max(this._entries.map((elt) => elt.val)) : this._options.yMax;
-
-    if (this._options.verbose) console.log("yMax Evaluated to: ", this._options.yMax);
+    if (this._options.yMax === -1) {
+      this._options.yMax = max(this._entries.map((elt) => elt.val));
+      if (this._options.verbose) console.log("yMax Evaluated to: ", this._options.yMax);
+    }
 
     // Y-Axis Segmentations
-    const Y_SEGMENTS = HEIGHT / graphSegments_Y;
-    const maxY_segment = Y_SEGMENTS * (graphSegments_Y - 2);
+    const y_height_px = HEIGHT / graphSegments_Y;
+    const maxY_segment = y_height_px * (graphSegments_Y - 2);
 
     for (let i = 0; i < graphSegments_Y - 1; i++) {
-      const Y = HEIGHT - Y_SEGMENTS * i - this._y_padding;
+      const Y = HEIGHT - y_height_px * i - this._y_padding;
 
       ctx.fillStyle = "#ECF0F1";
       ctx.strokeStyle = "#ECF0F1";
@@ -217,13 +218,11 @@ export class Graph {
       ctx.fillStyle = this._options.ySegmentColor;
       ctx.strokeStyle = this._options.ySegmentColor;
 
-      const normalized = normalize(HEIGHT - this._y_padding - Y, 0, maxY_segment);
-      const yVal = normalized * this._options.yMax;
-      ctx.fillText(
-        (!(yVal % 1) ? yVal : yVal.toFixed(graphValuePrecision)).toString(),
-        this._x_padding - (yVal % 1 === 0 ? 25 : 35),
-        Y
-      );
+      const yVal: number = normalize((HEIGHT - this._y_padding - Y) * this._options.yMax, 0, maxY_segment);
+      const yValStr: string = yVal % 1 === 0 ? yVal.toString() : yVal.toFixed(graphValuePrecision);
+      const offset: number = 10 + yValStr.length * 5.5;
+
+      ctx.fillText(yValStr, this._x_padding - offset, Y + 3);
     }
 
     // X-Axis Segmentations
