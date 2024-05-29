@@ -1,6 +1,6 @@
 {
   "name": "@josefabio/denochart",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "exports": "./mod.ts",
   "imports": {
     "@josefabio/deno-canvas": "jsr:@josefabio/deno-canvas@^1.5.1"
