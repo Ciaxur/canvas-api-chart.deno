@@ -94,7 +94,6 @@ export class Graph {
       yAxisText: (config && config.yAxisText) ?? "Y-Axis",
 
       yMax: (config && config.yMax) ?? -1,
-      yMin: (config && config.yMin) ?? 0,
 
       yPadding: (config && config.yPadding) ?? 0,
       xPadding: (config && config.xPadding) ?? 0,
