@@ -238,23 +238,26 @@ export class Graph {
 
       // X Value Text (Index)
       const entry = this._entries[i];
-      const entryFloatVal = (entry && entry.label && Number.parseFloat(entry.label)) || NaN;
       ctx.fillStyle = this._options.xSegmentColor;
       ctx.strokeStyle = this._options.xSegmentColor;
-      ctx.fillText(
-        (
-          (entry &&
-            entry.label && // Set fixed floating point decimal IF parsable float
-            (isNaN(entryFloatVal)
-              ? entry.label
-              : !(entryFloatVal % 1) // Only set fixed precision for Floating-point values
-              ? entryFloatVal
-              : entryFloatVal.toFixed(graphValuePrecision))) ||
-          i
-        ).toString(),
-        X,
-        HEIGHT - this._y_offset + 12
-      );
+
+      if (entry?.label !== "") {
+        const entryFloatVal = (entry && entry.label !== undefined && Number.parseFloat(entry.label)) || NaN;
+        ctx.fillText(
+          (
+            (entry &&
+              entry.label !== undefined && // Set fixed floating point decimal IF parsable float
+              (isNaN(entryFloatVal)
+                ? entry.label
+                : !(entryFloatVal % 1) // Only set fixed precision for Floating-point values
+                ? entryFloatVal
+                : entryFloatVal.toFixed(graphValuePrecision))) ||
+            i
+          ).toString(),
+          X,
+          HEIGHT - this._y_offset + 12
+        );
+      }
     }
   }
 
