@@ -1,4 +1,4 @@
-import Canvas from "https://deno.land/x/canvas@v1.4.1/mod.ts";
+import Canvas from "@josefabio/deno-canvas";
 export default Canvas;
 
-export * from "https://deno.land/x/canvas@v1.4.1/mod.ts";
+export * from "@josefabio/deno-canvas";

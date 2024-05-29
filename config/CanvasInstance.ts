@@ -1,4 +1,4 @@
-import Canvas, { EmulatedCanvas2D, CanvasRenderingContext2D } from "../deps.ts";
+import Canvas, { type EmulatedCanvas2D, type CanvasRenderingContext2D } from "../deps.ts";
 
 export class CanvasInstance {
   // CANVAS API INSTANCES
@@ -24,7 +24,7 @@ export class CanvasInstance {
    * @param height Canvas Height
    * @returns
    */
-  public static init(width: number, height: number) {
+  public static init(width: number, height: number): CanvasRenderingContext2D | null {
     if (this._canvas === null) {
       this._canvas = Canvas.MakeCanvas(width, height);
       this._ctx = this._canvas.getContext("2d");

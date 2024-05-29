@@ -325,7 +325,7 @@ export class Graph {
   /**
    * @returns Image buffer
    */
-  public toBuffer() {
+  public toBuffer(): Uint8Array {
     const { canvas } = CanvasInstance;
     return canvas.toBuffer();
   }

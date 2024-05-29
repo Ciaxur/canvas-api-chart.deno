@@ -1,0 +1,26 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@josefabio/deno-canvas@^1.5.1": "jsr:@josefabio/deno-canvas@1.5.1",
+      "jsr:@std/encoding@^0.224.2": "jsr:@std/encoding@0.224.2"
+    },
+    "jsr": {
+      "@josefabio/deno-canvas@1.5.1": {
+        "integrity": "5e1f2cdbaea013e783e078ac60a92d5c31c55cb31753acb802fa3ce79ea01616",
+        "dependencies": [
+          "jsr:@std/encoding@^0.224.2"
+        ]
+      },
+      "@std/encoding@0.224.2": {
+        "integrity": "bd9ef45d6028296440005804db7fc8fcc86e72fc1a19bb77684fb39c4a613672"
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@josefabio/deno-canvas@^1.5.1"
+    ]
+  }
+}
