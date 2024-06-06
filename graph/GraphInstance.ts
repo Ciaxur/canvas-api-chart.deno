@@ -38,6 +38,8 @@ export interface GraphOptions {
   titleColor: string;
   xTextColor: string;
   yTextColor: string;
+  /** Defaults to 10pt */
+  yTextSize: number;
 
   // Segmentation Color
   xSegmentColor: string;
@@ -107,6 +109,7 @@ export class Graph {
       titleColor: (config && config.titleColor) ?? "rgb(255,255,255)",
       xTextColor: (config && config.xTextColor) ?? "rgb(255,255,255)",
       yTextColor: (config && config.yTextColor) ?? "rgb(255,255,255)",
+      yTextSize: (config && config.yTextSize) ?? 10,
 
       xSegmentColor: (config && config.xSegmentColor) ?? "rgb(255,255,255)",
       ySegmentColor: (config && config.ySegmentColor) ?? "rgb(255,255,255)",
@@ -240,6 +243,7 @@ export class Graph {
       const entry = this._entries[i];
       ctx.fillStyle = this._options.xSegmentColor;
       ctx.strokeStyle = this._options.xSegmentColor;
+      ctx.font = this._options.yTextSize + "px Cochin";
 
       if (entry?.label !== "") {
         const entryFloatVal = (entry && entry.label !== undefined && Number.parseFloat(entry.label)) || NaN;
