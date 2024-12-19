@@ -1,4 +1,4 @@
-import Canvas from "@josefabio/deno-canvas";
+import Canvas from "deno-canvas";
 export default Canvas;
 
-export * from "@josefabio/deno-canvas";
+export * from "deno-canvas";
