@@ -1,1 +1,1 @@
-export * from './GraphInstance.ts';
+export * from "./GraphInstance.ts";

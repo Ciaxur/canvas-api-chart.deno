@@ -1,0 +1,23 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@gfx/canvas-wasm@~0.4.2": "0.4.2",
+    "jsr:@std/encoding@1.0.5": "1.0.5"
+  },
+  "jsr": {
+    "@gfx/canvas-wasm@0.4.2": {
+      "integrity": "d653be3bd12cb2fa9bbe5d1b1f041a81b91d80b68502761204aaf60e4592532a",
+      "dependencies": [
+        "jsr:@std/encoding"
+      ]
+    },
+    "@std/encoding@1.0.5": {
+      "integrity": "ecf363d4fc25bd85bd915ff6733a7e79b67e0e7806334af15f4645c569fefc04"
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@gfx/canvas-wasm@~0.4.2"
+    ]
+  }
+}
